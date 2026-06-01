@@ -1,7 +1,9 @@
 from dotenv import load_dotenv
-from graph.workflow import graph
 
 load_dotenv()
+
+from graph.workflow import graph
+
 
 query = input("Research Topic: ")
 result = graph.invoke({
@@ -9,15 +11,8 @@ result = graph.invoke({
 })
 
 print("\n")
-print("=" * 50)
-print("PLAN")
-print("=" * 50)
+print("=" * 60)
+print("RESEARCH REPORT")
+print("=" * 60)
 
-print(result["plan"])
-
-print("\n")
-print("=" * 50)
-print("RESEARCH")
-print("=" * 50)
-
-print(result["research"])
+print(result["report"])
