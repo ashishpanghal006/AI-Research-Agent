@@ -1,23 +1,21 @@
-from langchain_groq import ChatGroq
-
-llm = ChatGroq(model="llama-3.3-70b-versatile")
+from config.llm import llm
 
 def analyst_agent(state):
     research = state["research"]
     prompt = f"""
     You are a senior research analyst.
 
-    Analyze the research data below.
-
-    Extract:
+    Based on the research summaries below, provide:
 
     1. Key Findings
     2. Important Trends
     3. Opportunities
     4. Risks
-    5. Insights
+    5. Strategic Insights
 
-    RESEARCH:
+    Keep the response concise and actionable.
+
+    RESEARCH SUMMARIES:
 
     {research}
     """

@@ -1,21 +1,29 @@
-from langchain_groq import ChatGroq
+from pydantic import BaseModel
+from config.llm import llm
 
-llm = ChatGroq(model="llama-3.3-70b-versatile")
+class ResearchPlan(BaseModel):
+    plan: str
+    questions: list[str]
+
+structured_llm = llm.with_structured_output(ResearchPlan)
 
 def planner_agent(state):
     query = state["query"]
-    prompt = f"""
-    You are a planning agent.
+    response = structured_llm.invoke(
+        f"""
+        Create a research strategy.
 
-    Create a research plan for:
-    
-    {query}
+        Topic:
+        {query}
 
-    Keep it concise.
-    """
+        Generate:
 
-    response = llm.invoke(prompt)
+        1. A concise research plan
+        2. Five important research questions
+        """
+    )
 
     return {
-        "plan": response.content
+        "plan": response.plan,
+        "research_questions": response.questions
     }

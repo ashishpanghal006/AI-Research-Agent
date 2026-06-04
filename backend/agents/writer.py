@@ -1,11 +1,24 @@
-from langchain_groq import ChatGroq
-
-llm = ChatGroq(model="llama-3.3-70b-versatile")
+from config.llm import llm
 
 def writer_agent(state):
     query = state["query"]
     plan = state["plan"]
     analysis = state["analysis"]
+    sources = state["sources"]
+
+    unique_urls = list(
+        {
+            source["url"]
+            for source in sources
+        }
+    )
+
+    reference_text = "\n".join(
+        [
+            f"- {url}"
+            for url in unique_urls[:20]
+        ]
+    )
 
     prompt = f"""
     Create a professional research report.
@@ -19,6 +32,9 @@ def writer_agent(state):
     ANALYSIS:
     {analysis}
 
+    REFERENCES:
+    {reference_text}
+
     Format:
 
     # Executive Summary
@@ -30,6 +46,8 @@ def writer_agent(state):
     # Opportunities
 
     # Risks
+
+    # References
 
     # Conclusion
     """
