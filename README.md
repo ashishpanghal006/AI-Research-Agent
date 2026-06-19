@@ -22,7 +22,7 @@ This project simulates a real-world AI research workflow where multiple AI agent
 
 ---
 
-# Architecture
+# Architecture 
 
 ```text
 User Query
